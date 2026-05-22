@@ -56,7 +56,7 @@ jobs:
                 ip: ${{ secrets.EC2_IP }}
                 username: ubuntu
                 private_key: "${{ secrets.EC2_KEY }}"
-                directory_path: "${{ env.EC2_DIR_PATH }}"
-                directory_name: "${{ env.EC2_DIR_NAME }}"
+                directory_path: "${{ env.DIR_PATH }}"
+                directory_name: "${{ env.DIR_NAME }}"
 
  
