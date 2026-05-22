@@ -1,9 +1,6 @@
 name: "create directory in ec2 instance"
 description: "This action creates a directory in an EC2 instance using SSH"
 inputs:
-  host:
-    description: "The hostname"
-    required: true
   ip:
     description: "The IP address"
     required: true  

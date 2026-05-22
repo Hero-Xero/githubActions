@@ -38,7 +38,7 @@ jobs:
           - name: use custom actions1
             uses: ./.github/actions/cat
             with:
-              path: welcome.txt
+              file_path: welcome.txt
          
              
 
