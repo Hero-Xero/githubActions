@@ -48,6 +48,20 @@ jobs:
                 aws-access-key: "${{ secrets.ACCESS }}"
                 aws-secret-key:  ${{ secrets.SECRET }}
                 region: us-east-1
+
+          - name: Load .env into workflow env
+            shell: bash
+            run: |
+              if [ -f .env ]; then
+                set -o allexport
+                source .env
+                set +o allexport
+                echo "DIR_PATH=$DIR_PATH" >> $GITHUB_ENV
+                echo "DIR_NAME=$DIR_NAME" >> $GITHUB_ENV
+              else
+                echo ".env not found; please set DIR_PATH/DIR_NAME" >&2
+                exit 1
+              fi
            
           - name: create directory in ec2
             uses: ./.github/actions/ec2-mkdir
