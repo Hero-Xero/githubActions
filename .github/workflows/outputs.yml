@@ -52,7 +52,7 @@ jobs:
           - name: create directory in ec2
             uses: ./.github/actions/ec2-mkdir
             with:
-                ip: ${{ secrets.EC2_IP }}
+                ip: "${{ secrets.EC2_IP }}"
                 username: ubuntu
                 private_key: "${{ secrets.EC2_KEY }}"
                 directory_path: "${{ env.DIR_PATH }}"
