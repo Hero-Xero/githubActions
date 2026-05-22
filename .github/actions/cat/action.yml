@@ -10,6 +10,7 @@ runs:
   using: "composite"
   steps:
   - name: Read file content
+    shell: bash
     id: read_file
     run: |
       if [ -f "${{ inputs.file_path }}" ]; then
