@@ -1,0 +1,21 @@
+name: "Cat file content"
+description: "This action reads the content of a file and outputs it as a string"
+inputs:
+  file_path:
+    description: "The path of the file to read"
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+  - name: Read file content
+    id: read_file
+    run: |
+      if [ -f "${{ inputs.file_path }}" ]; then
+        content=$(cat "${{ inputs.file_path }}")
+        echo "file_content=$content" >> $GITHUB_OUTPUT
+      else
+        echo "File not found: ${{ inputs.file_path }}"
+        exit 1
+      fi

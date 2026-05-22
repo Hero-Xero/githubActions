@@ -1,0 +1,42 @@
+name: "create directory in ec2 instance"
+description: "This action creates a directory in an EC2 instance using SSH"
+inputs:
+  host:
+    description: "The hostname"
+    required: true
+  ip:
+    description: "The IP address"
+    required: true  
+  username:
+    description: "The SSH username"
+    required: true
+  private_key:
+    description: "The SSH private key"
+    required: true
+  directory_name:
+    description: "The name of the directory to create on the EC2 instance"
+    required: true
+  directory_path:
+    description: "The path of the directory to create on the EC2 instance"
+    required: true  
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up SSH key
+      shell: bash
+      run: |
+        printf '%s\n' "${{ inputs.private_key }}" > private_key.pem
+        chmod 600 private_key.pem
+        
+    - name: Create directory in EC2 instance
+      shell: bash
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key.pem "${{ inputs.username }}@${{ inputs.ip }}" "mkdir -p \"${{ inputs.directory_path }}/${{ inputs.directory_name }}\""
+        
+    - name: Clean up
+      if: always()
+      shell: bash
+      run: |
+        rm -f private_key.pem
