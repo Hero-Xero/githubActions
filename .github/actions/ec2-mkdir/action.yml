@@ -31,7 +31,10 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=10 -i private_key.pem "${{ inputs.username }}@${{ inputs.ip }}" "mkdir -p \"${{ inputs.directory_path }}/${{ inputs.directory_name }}\""
+        # trim leading/trailing whitespace/newlines from input IP
+        ip_clean=$(printf '%s' "${{ inputs.ip }}" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        remote_target="${{ inputs.username }}@${ip_clean}"
+        ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=10 -i private_key.pem "$remote_target" "mkdir -p \"${{ inputs.directory_path }}/${{ inputs.directory_name }}\""
 
     - name: Clean up
       if: always()
